@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gorbov;
 
 import java.awt.Color;
@@ -12,8 +7,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -31,6 +35,17 @@ public class Gorbov {
     public static void main(String[] args) {
         Frame f = new MainFrame();
         f.setVisible(true);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Gorbov.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Gorbov.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Gorbov.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Gorbov.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     Gorbov() {
@@ -150,6 +165,27 @@ public class Gorbov {
             }
         }
 
+    }
+    
+    public void saveImg(){
+        if (field == null) {
+            return;
+        }
+
+        JFileChooser fileopen = new JFileChooser();
+        fileopen.setDialogType(JFileChooser.SAVE_DIALOG);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image", "png");
+        fileopen.setFileFilter(filter);
+
+        int ret = fileopen.showDialog(null, "Save");
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            try {
+                File file = fileopen.getSelectedFile();
+                ImageIO.write(field, "png", new File(file.toString() + ".png"));
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
