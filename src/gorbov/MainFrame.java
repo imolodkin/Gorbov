@@ -1,5 +1,6 @@
 package gorbov;
 
+import java.util.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
@@ -28,25 +29,28 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         field_lbl = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        fillMatrix_btn = new javax.swing.JButton();
+        matrix_btn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        start_btn = new javax.swing.JButton();
+        stop_btn = new javax.swing.JButton();
+        time_lbl = new gorbov.TimerLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Тест Горбова-Шульте");
         setResizable(false);
 
-        jButton1.setText("С фоном");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        fillMatrix_btn.setText("С фоном");
+        fillMatrix_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                fillMatrix_btnActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Без фона");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        matrix_btn.setText("Без фона");
+        matrix_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                matrix_btnActionPerformed(evt);
             }
         });
 
@@ -57,6 +61,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        start_btn.setText("Старт");
+        start_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                start_btnActionPerformed(evt);
+            }
+        });
+
+        stop_btn.setText("Стоп");
+        stop_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stop_btnActionPerformed(evt);
+            }
+        });
+
+        time_lbl.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,11 +86,17 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(field_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(93, 93, 93)
+                .addGap(11, 11, 11)
+                .addComponent(time_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(start_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stop_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(matrix_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fillMatrix_btn)
+                .addGap(44, 44, 44)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
@@ -79,9 +105,12 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(matrix_btn)
+                    .addComponent(fillMatrix_btn)
+                    .addComponent(jButton3)
+                    .addComponent(start_btn)
+                    .addComponent(stop_btn)
+                    .addComponent(time_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(field_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -90,19 +119,29 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void fillMatrix_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillMatrix_btnActionPerformed
         gorbov.drawFillMatrix();
         field_lbl.setIcon(new ImageIcon(gorbov.getField()));
-    }//GEN-LAST:event_jButton1ActionPerformed
+        time_lbl.restartTimer();
+    }//GEN-LAST:event_fillMatrix_btnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void matrix_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matrix_btnActionPerformed
         gorbov.drawMatrix();
         field_lbl.setIcon(new ImageIcon(gorbov.getField()));
-    }//GEN-LAST:event_jButton2ActionPerformed
+        time_lbl.restartTimer();
+    }//GEN-LAST:event_matrix_btnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         gorbov.saveImg();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void start_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_start_btnActionPerformed
+        time_lbl.restartTimer();
+    }//GEN-LAST:event_start_btnActionPerformed
+
+    private void stop_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_btnActionPerformed
+        time_lbl.stopTimer();
+    }//GEN-LAST:event_stop_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,8 +175,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel field_lbl;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton fillMatrix_btn;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton matrix_btn;
+    private javax.swing.JButton start_btn;
+    private javax.swing.JButton stop_btn;
+    private gorbov.TimerLabel time_lbl;
     // End of variables declaration//GEN-END:variables
 }
